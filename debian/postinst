@@ -1,22 +1,30 @@
 #!/bin/sh
 
+# Create /etc/apt/sources.list.d/devuan.list file. 
+# Will silently overwrite if that file is present.
+
 set -e
 
 case "$1" in
     configure)
+    # Attribute best values to "suite" and "dists" vars.
     suite="stable"
     dists="main"
     if [ ! -f /etc/apt/sources.lists.d/devuan.list ]; then
       if [ -f /etc/apt/sources.list ] ; then
+	 # Append below strings, if they are not yet in "dists".
          for dist in contrib non-free; do
             if grep -q '^[^#]* '$dist /etc/apt/sources.list; then
                dists="$dists $dist"
             fi
          done
       fi
+      
       if [ -x /usr/bin/lsb_release ] ; then
+	 # Attribute LSB value for release (DISTRIB_RELEASE) to suite if available.
          suite=$(lsb_release -sr)
       fi
+      # Create list file with best values.
       echo "deb http://packages.devuan.org/devuan $suite $dists" > /etc/apt/sources.list.d/devuan.list
       echo "deb-src http://packages.devuan.org/devuan $suite $dists" >> /etc/apt/sources.list.d/devuan.list
     fi
@@ -34,4 +42,3 @@ esac
 #DEBHELPER#
 
 exit 0
-
