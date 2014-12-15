@@ -15,9 +15,8 @@ case "$1" in
     dists="main"
 
     if [ ! -f /etc/apt/sources.lists.d/devuan.list ]; then
-      # Populate dists with values from sources.list where available.
+      # Append values to dists if a source from sources.list is available.
       if [ -f /etc/apt/sources.list ] ; then
-	 # Extract targets from existing sources.list file when available, add to "dists" var if they are not yet included.
          for dist in contrib non-free; do
             if grep -q '^[^#]* '$dist /etc/apt/sources.list; then
                dists="$dists $dist"
@@ -27,7 +26,6 @@ case "$1" in
 
       # Populate suite with LSB value for release (DISTRIB_RELEASE) where available.      
       if [ -x /usr/bin/lsb_release ] ; then
-	 # Attribute LSB value for release (DISTRIB_RELEASE) to var "suite" if available.
          suite=$(lsb_release -sr)
       fi
 
