@@ -15,7 +15,7 @@ case "$1" in
     dists="main"
 
     if [ ! -f /etc/apt/sources.lists.d/devuan.list ]; then
-      # Populate dists with values from sources.list where available.
+      # Append values to dists if a source from sources.list is available.
       if [ -f /etc/apt/sources.list ] ; then
          for dist in contrib non-free; do
             if grep -q '^[^#]* '$dist /etc/apt/sources.list; then

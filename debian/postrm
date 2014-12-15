@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Cleanup apt configuration after devuan-baseconf package removal.
+
+# This script is run by the package management system after the devuan-baseconf
+# package is removed. This follows Debian policy as documented at 
+# https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html.
+
 set -e
 
 case "$1" in
@@ -26,7 +32,7 @@ case "$1" in
     ;;
 
     *)
-        echo "prerm called with unknown argument \`$1'" >&2
+        echo "postrm called with unknown argument \`$1'" >&2
         exit 1
     ;;
 esac
@@ -34,4 +40,3 @@ esac
 #DEBHELPER#
 
 exit 0
-
